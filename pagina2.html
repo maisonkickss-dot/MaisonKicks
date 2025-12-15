@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maison Kicks — shorts</title>
+  <style>
+    :root{
+      --max-width:1200px;
+      --accent:#111;
+      --muted:#6b7280;
+      --muted-2:#9ca3af;
+      --gap:20px;
+      --surface:#ffffff;
+      --card:#fbfbfc;
+      --radius:12px;
+      --shadow: 0 8px 20px rgba(16,24,40,0.06);
+      --container-padding:18px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--surface);color:var(--accent);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    header{
+      background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.85));
+      backdrop-filter: blur(4px);
+      position:sticky;
+      top:0;
+      z-index:20;
+      border-bottom:1px solid #f1f1f1;
+    }
+    .wrap{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:12px var(--container-padding);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand{
+      font-family: "Times New Roman", serif;
+      font-style:italic;
+      font-weight:700;
+      letter-spacing:3px;
+      font-size:20px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .logo-large{font-family: "Zapfino", serif; font-size:26px; margin-right:4px; color:var(--accent)}
+    .topbar{font-size:13px;color:var(--muted)}
+
+    main{max-width:var(--max-width);margin:28px auto;padding:0 var(--container-padding)}
+
+    .product{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:var(--gap);
+      align-items:start;
+    }
+
+    /* gallery column */
+    .gallery{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow:var(--shadow);
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+    }
+    .thumbs{
+      width:96px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .thumbs img{
+      width:100%;
+      cursor:pointer;
+      border-radius:10px;
+      border:1px solid #f0f0f0;
+      object-fit:cover;
+    }
+    .hero{
+      flex:1;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:6px;
+    }
+    .hero img{
+      max-width:520px;
+      width:100%;
+      height:auto;
+      border-radius:10px;
+      border:1px solid #f3f4f6;
+      background:linear-gradient(180deg,#fff,#fafafa);
+    }
+
+    /* info column */
+    .info{
+      background:transparent;
+      padding:8px 4px;
+    }
+    .title{font-size:20px;font-weight:700;margin:0;color:var(--accent)}
+    .subtitle{color:var(--muted);margin-top:6px;font-size:14px}
+    .price{
+      font-size:22px;
+      font-weight:800;
+      margin:16px 0 8px;
+      color:var(--accent);
+    }
+    .price .sub{display:block;font-size:13px;color:var(--muted-2);font-weight:400;margin-top:6px}
+
+    .controls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:8px;
+      flex-wrap:wrap;
+    }
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    select{padding:10px;border-radius:10px;border:1px solid #e6e7ea;background:#fff;min-width:120px}
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      padding:12px 16px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow: 0 6px 18px rgba(17,24,39,0.08);
+    }
+    .ghost{
+      background:#fff;
+      border:1px solid #e6e7ea;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    .sections{
+      margin-top:22px;
+      border-top:1px solid #f3f4f6;
+      padding-top:18px;
+    }
+    .section h3{margin:0 0 8px;font-size:15px}
+    .muted{color:var(--muted);line-height:1.6}
+
+    /* mini cart */
+    .mini-cart{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      background:#fff;
+      border:1px solid #eee;
+      padding:12px;
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(16,24,40,0.06);
+      min-width:220px;
+      display:none;
+      z-index:50;
+    }
+    .cart-item{display:flex;gap:10px;align-items:center}
+    .cart-count{background:var(--accent);color:#fff;padding:6px 8px;border-radius:999px;font-weight:700}
+
+    /* PANEL CARRITO DESLIZABLE */
+.cart{
+  position:fixed;
+  top:0;
+  right:-100%;
+  width:360px;
+  max-width:100%;
+  height:100%;
+  background:#fff;
+  box-shadow:-12px 0 30px rgba(0,0,0,.15);
+  transition: right .3s ease;
+  z-index:99999;
+  display:flex;
+  flex-direction:column;
+}
+
+.cart.open{
+  right:0;
+}
+
+.cart-header,
+.cart-footer{
+  padding:16px;
+  border-bottom:1px solid #eee;
+}
+
+.cart-footer{
+  border-top:1px solid #eee;
+}
+
+.cart-list{
+  flex:1;
+  overflow-y:auto;
+  padding:16px;
+}
+.cart-item{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.cart-item img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #eee;
+  flex-shrink:0;
+}
+
+.cart-item .info{
+  flex:1;
+  font-size:13px;
+}
+
+.cart-item .name{
+  font-weight:600;
+}
+
+.cart-item .meta{
+  color:#777;
+  font-size:12px;
+}
+
+
+    /* size modal */
+    #sizeModal{position:fixed;inset:0;background:rgba(5,8,13,0.48);display:none;align-items:center;justify-content:center;z-index:9999}
+    .size-panel{background:#fff;width:94%;max-width:700px;max-height:85vh;overflow-y:auto;border-radius:14px;padding:20px;box-shadow:0 16px 40px rgba(2,6,23,0.15)}
+    .size-header{font-size:18px;font-weight:700;border-bottom:1px solid #f3f4f6;padding-bottom:12px;margin-bottom:12px;display:flex;justify-content:space-between}
+    .close-x{font-size:26px;cursor:pointer}
+
+    footer{margin-top:40px;padding:20px;border-top:1px solid #f1f5f9;color:var(--muted);text-align:center}
+
+    /* responsive rules */
+    @media (max-width:980px){
+      .product{grid-template-columns:1fr 360px}
+      .hero img{max-width:420px}
+    }
+    @media (max-width:760px){
+      .product{grid-template-columns:1fr}
+      .gallery{flex-direction:column}
+      .thumbs{order:2;flex-direction:row;width:100%;overflow:auto}
+      .thumbs img{width:84px;flex:0 0 auto}
+      .hero img{max-width:100%}
+      .wrap{padding:10px}
+      main{padding:0 12px}
+      .mini-cart{right:12px;bottom:12px}
+    }
+    @media (max-width:420px){
+      .title{font-size:18px}
+      .price{font-size:18px}
+      .brand{font-size:16px}
+      .logo-large{font-size:22px}
+      .controls{gap:8px}
+      select{min-width:100%}
+      .btn{width:100%}
+    }
+
+/* ===== RECORTE VERTICAL IMAGEN PRODUCTO (MOBILE) ===== */
+@media (max-width:760px){
+
+  .hero{
+    height:240px;       /* controla cuánto ocupa */
+    overflow:hidden;
+  }
+
+  .hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;  /* CLAVE: recorta arriba y abajo */
+    object-position:center;
+  }
+}
+
+
+
+
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="index.html" class="brand">
+  <span class="logo-large">Maison</span>
+  <span>Kicks</span>
+</a>
+
+    <div class="topbar">Entrega estimada: 10 - 15 dias </div>
+  </div>
+</header>
+
+<main>
+  <div class="product" style="max-width:var(--max-width);margin:0 auto;padding:20px var(--container-padding)">
+
+    <div>
+      <div class="gallery" aria-hidden="false">
+        <div class="thumbs" id="thumbs">
+          <img data-src="./images2/pag02.jpg" src="./images2/pag02.jpg" alt="imag1" id="thumb1">
+          <img data-src="./images2/pag2.jpg" src="./images2/pag2.jpg" alt="imag2" id="thumb2">
+        </div>
+        <div class="hero">
+          <img src="./images2/pag2.jpg" alt="Hoodie" id="hero">
+        </div>
+      </div>
+
+ <div class="info">
+      <h1 class="title">𝐅𝐞𝐚𝐫 𝐨𝐟 𝐠𝐨𝐝 𝐄𝐬𝐬𝐞𝐧𝐭𝐢𝐚𝐥𝐬</h1>
+      <div class="subtitle">Short deportivos con logo</div>
+
+      <div class="price">$899 <span class="sub">Impuestos aduaneros incluidos</span></div>
+
+      <div class="controls">
+        <div style="min-width:140px">
+
+         <!-- SELECTOR DE COLOR -->
+<label style="font-size:13px;color:#777;margin-bottom:6px;">Color</label>
+<div class="color-boxes">
+  <div class="color-option selected-color" data-color="negro" style="background:#111"></div>
+  <div class="color-option" data-color="gris" style="background:#A0A0A0"></div>
+  <div class="color-option" data-color="blanco" style="background:#f5f5f5"></div>
+  <div class="color-option" data-color="verde" style="background:#6e775d"></div>
+</div>
+
+<br>
+
+
+
+        
+          <label for="size">Seleccionar talla</label>
+          <select id="size">
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1">
+          <button class="btn" id="addBtn">Añadir a la bolsa</button>
+          <button class="ghost" id="sizeGuide">Guía de tallas</button>
+        </div>
+      </div>
+
+
+     <div class="sections">
+  <div class="section accordion">
+    <button class="accordion-header">
+      <span>DETALLES DEL PRODUCTO</span>
+      <span class="icon">+</span>
+    </button>
+    <div class="accordion-content">
+      <p class="muted">
+        Este modelo presenta un corte oversize (holgado) característico de la línea Fear of God Essentials,
+        diseñado para un fit relajado en el cuerpo y los hombros.
+        Consulta nuestra Guía de tallas para las medidas exactas.
+      </p>
+    </div>
+  </div>
+
+  <div class="section accordion">
+    <button class="accordion-header">
+      <span>COMPOSICIÓN</span>
+      <span class="icon">+</span>
+    </button>
+    <div class="accordion-content">
+      <p class="muted">Algodón 80%, Poliéster 20%.</p>
+    </div>
+  </div>
+
+  <div class="section accordion">
+    <button class="accordion-header">
+      <span>INSTRUCCIONES DE LAVADO</span>
+      <span class="icon">+</span>
+    </button>
+    <div class="accordion-content">
+      <p class="muted">Lavar a mano.</p>
+    </div>
+  </div>
+
+</div>
+
+
+     <div class="sections">
+
+  <div class="section accordion">
+    <button class="accordion-header">
+      <span>TALLA Y AJUSTE</span>
+      <span class="icon">+</span>
+    </button>
+    <div class="accordion-content">
+      <p class="muted">
+        Tipo de corte y recomendación de talla.<br><br>
+        Corte Oversize / Boxy (holgado, a la rodilla o arriba de ella).
+        Si prefieres un ajuste más entallado o menos largo,
+        te recomendamos seleccionar una talla menos de tu talla habitual.
+      </p>
+    </div>
+  </div>
+
+  <div class="section accordion">
+    <button class="accordion-header">
+      <span>ENVÍOS, DEVOLUCIONES Y VENDEDOR</span>
+      <span class="icon">+</span>
+    </button>
+    <div class="accordion-content">
+      <p class="muted">
+        Envío estándar de 10–15 días hábiles.<br>
+        Devoluciones aceptadas dentro de los primeros 30 días.
+      </p>
+    </div>
+  </div>
+
+  <div class="section accordion">
+    <button class="accordion-header">
+      <span>ID DE PRODUCTO</span>
+      <span class="icon">+</span>
+    </button>
+    <div class="accordion-content">
+      <p class="muted">1002</p>
+    </div>
+  </div>
+
+</div>
+
+
+</main>
+
+<!-- NEW FARFETCH STYLE SIZE MODAL -->
+<div class="size-modal" id="sizeModal">
+  <div class="size-panel">
+    <div class="size-header">
+      Guía de tallas
+      <span class="close-x" id="closeSizeModal">×</span>
+    </div>
+
+    <div class="size-body">
+      <h2>FEAR OF GOD ESSENTIALS</h2>
+      <div class="size-subtitle">short deportivos con logo</div>
+
+      <table class="size-table" style="width:100%;border-collapse:collapse">
+        <tr><th style="padding:10px;text-align:center">Talla estándar</th><th style="padding:10px;text-align:center">Italia/Francia</th><th style="padding:10px;text-align:center">RU/EEUU</th></tr>
+        <tr><td style="padding:10px;text-align:center">XXXS</td><td style="padding:10px;text-align:center">40</td><td style="padding:10px;text-align:center">46</td></tr>
+        <tr><td style="padding:10px;text-align:center">XXS</td><td style="padding:10px;text-align:center">42</td><td style="padding:10px;text-align:center">46</td></tr>
+        <tr><td style="padding:10px;text-align:center">XS</td><td style="padding:10px;text-align:center">44</td><td style="padding:10px;text-align:center">46</td></tr>
+        <tr><td style="padding:10px;text-align:center">S</td><td style="padding:10px;text-align:center">46</td><td style="padding:10px;text-align:center">48</td></tr>
+        <tr><td style="padding:10px;text-align:center">M</td><td style="padding:10px;text-align:center">48</td><td style="padding:10px;text-align:center">48</td></tr>
+        <tr><td style="padding:10px;text-align:center">L</td><td style="padding:10px;text-align:center">50</td><td style="padding:10px;text-align:center">50</td></tr>
+        <tr><td style="padding:10px;text-align:center">XL</td><td style="padding:10px;text-align:center">52</td><td style="padding:10px;text-align:center">52</td></tr>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Maison Kicks — Moda responsable</footer>
+
+<script>
+  // gallery behavior (sin cambios funcionales)
+  const hero = document.getElementById('hero');
+  document.getElementById('thumb1').addEventListener('click', ()=> hero.src = './images2/pag02.jpg');
+  document.getElementById('thumb2').addEventListener('click', ()=> hero.src = './images2/pag2.jpg');
+
+  /* NEW SIZE MODAL JS (igual que antes) */
+  const sizeModal = document.getElementById("sizeModal");
+  document.getElementById("sizeGuide").onclick = () => sizeModal.style.display="flex";
+  document.getElementById("closeSizeModal").onclick = () => sizeModal.style.display="none";
+  sizeModal.onclick = (e)=>{ if(e.target===sizeModal) sizeModal.style.display="none"; };
+
+</script>
+
+<!-- MINI CARRITO FLOTANTE GLOBAL (conecta con carrito.js si lo usas) -->
+<button id="miniCart" class="mini-cart-btn" style="display:none">
+  🛒 <span id="miniCount">0</span>
+</button>
+
+<script src="carrito.js"></script>
+
+<script>
+document.getElementById("addBtn").addEventListener("click", () => {
+  if (typeof addToCart === 'function') {
+    addToCart({
+      id: 5,
+      name: "short deportivos con logo",
+      price: 899,
+      size: document.getElementById("size").value,
+      image: document.getElementById("hero").src
+    });
+  }
+
+  const btn = document.getElementById("addBtn");
+  btn.textContent = "Añadido ✓";
+  setTimeout(() => btn.textContent = "Añadir a la bolsa", 900);
+});
+</script>
+
+
+<style>
+.mini-cart-btn{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  background:#111;
+  color:#fff;
+  border:none;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:20px;
+  cursor:pointer;
+  z-index:99999;
+}
+
+.color-boxes{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+.color-option{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  border:2px solid #ddd;
+  cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,0,0,0.15);
+}
+.selected-color{
+  border:2px solid #111 !important;
+  transform:scale(1.1);
+}
+
+/* ===== ACCORDION PRODUCT INFO ===== */
+.accordion {
+  border-bottom: 1px solid #eee;
+}
+
+.accordion-header {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.accordion.open .accordion-content {
+  max-height: 400px;
+}
+
+.icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.accordion.open .icon {
+  transform: rotate(45deg);
+}
+
+/* ===== COMPACTAR GALERÍA EN MOBILE ===== */
+@media (max-width:760px){
+
+  /* contenedor completo */
+  .gallery{
+    padding:10px;
+    gap:8px;
+  }
+
+  /* imagen principal */
+  .hero{
+    height:220px;          /* CLAVE: reduce todo el bloque */
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .hero img{
+    width:100%;
+    height:100%;
+    object-fit:cover;      /* recorte vertical */
+    object-position:center;
+  }
+
+  /* miniaturas dentro del mismo cuadro */
+  .thumbs{
+    margin-top:6px;
+    flex-direction:row;
+    justify-content:center;
+    gap:10px;
+  }
+
+  .thumbs img{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+  }
+}
+
+
+</style>
+<script>
+// ===== IMÁGENES POR COLOR =====
+const colors = {
+  negro: { front:"pag2.jpg", back:"pag02.jpg" },
+  gris: { front:"gris.jpg", back:"gris1.jpg" },
+  blanco: { front:"blanco.jpg", back:"blanco1.jpg" },
+  verde: { front:"verde.jpg", back:"verde1.jpg" }
+};
+
+// ===== ELEMENTOS =====
+const heroImg = document.getElementById("hero");
+const thumb1 = document.getElementById("thumb1");
+const thumb2 = document.getElementById("thumb2");
+
+// ===== CAMBIO DE IMÁGENES SEGÚN COLOR =====
+document.querySelectorAll(".color-option").forEach(c => {
+  c.addEventListener("click", () => {
+    
+    // quitar selección previa
+    document.querySelectorAll(".color-option")
+      .forEach(el => el.classList.remove("selected-color"));
+
+    c.classList.add("selected-color");
+
+    const col = c.dataset.color;
+
+    // actualizar imágenes desde ./images2/
+    thumb1.src = `./images2/${colors[col].back}`;
+    thumb2.src = `./images2/${colors[col].front}`;
+    heroImg.src = `./images2/${colors[col].front}`;
+  });
+});
+
+// ===== MINIATURAS =====
+thumb1.addEventListener("click", () => heroImg.src = thumb1.src);
+thumb2.addEventListener("click", () => heroImg.src = thumb2.src);
+</script>
+<!-- PANEL CARRITO GLOBAL -->
+<aside class="cart" id="cart">
+  <div class="cart-header">
+    <h3>Mi bolsa</h3>
+    <button class="btn" id="closeCart">Cerrar</button>
+  </div>
+
+  <div class="cart-list" id="cartList"></div>
+
+  <div class="cart-footer">
+    <div id="totalLine">Total: $0</div>
+    <button class="btn checkout">Pagar</button>
+  </div>
+</aside>
+<script>
+document.querySelectorAll(".accordion-header").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const acc = btn.parentElement;
+
+    // cerrar los demás
+    document.querySelectorAll(".accordion").forEach(a => {
+      if (a !== acc) a.classList.remove("open");
+    });
+
+    acc.classList.toggle("open");
+  });
+});
+</script>
+
+</body>
+</html>

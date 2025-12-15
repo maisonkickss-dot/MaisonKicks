@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión — Maison Kicks</title>
+
+  <style>
+    body {
+      font-family: Inter, system-ui;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      background: white;
+      padding: 28px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 350px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    }
+    h2 { margin-bottom: 14px; }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 12px;
+      background: black;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .link {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #555;
+    }
+    a { color: black; font-weight: 600; cursor:pointer; }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>Iniciar sesión</h2>
+
+  <input type="email" id="email" placeholder="Correo">
+  <input type="password" id="password" placeholder="Contraseña">
+
+  <button id="btnLogin">Entrar</button>
+
+  <div class="link">¿No tienes cuenta? <a id="btnRegister">Crear cuenta</a></div>
+</div>
+
+<!-- Firebase Auth -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword }
+    from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCwCZzDpGCJxhLWRuYUEbCKP5uxmzfT3E8",
+    authDomain: "maison-kicks.firebaseapp.com",
+    projectId: "maison-kicks",
+    storageBucket: "maison-kicks.firebasestorage.app",
+    messagingSenderId: "349190759714",
+    appId: "1:349190759714:web:35ca259ccc68f80ca4717b"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+
+  // LOGIN
+  document.getElementById("btnLogin").onclick = async () => {
+    const email = document.getElementById("email").value;
+    const pass  = document.getElementById("password").value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      alert("Bienvenido 👟");
+      location.href = "index.html";
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  };
+
+  // REGISTER
+  document.getElementById("btnRegister").onclick = async () => {
+    const email = prompt("Correo:");
+    const pass = prompt("Contraseña (mín. 6 caracteres):");
+
+    if (!email || !pass) return;
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, pass);
+      alert("Cuenta creada ✔ Ahora inicia sesión.");
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  };
+</script>
+
+</body>
+</html>

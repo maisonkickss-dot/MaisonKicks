@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maison Kicks </title>
+
+  <style>
+    :root{
+      --accent:#111;
+      --muted:#777;
+      --bg:#fff;
+      --card:#f8f8f8;
+      --max-width:1200px;
+      --gap:24px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    html,body{
+      background:var(--bg);
+      color:var(--accent);
+      line-height:1.4;
+    }
+
+    img{max-width:100%;display:block}
+
+    .wrap{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:18px;
+    }
+
+    /* =========== HEADER =========== */
+    header.top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 0;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .branding{
+      font-weight:750;
+      letter-spacing:1px;
+      font-size:22px;
+    }
+
+    nav.links{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    nav.links a{
+      font-size:14px;
+      color:var(--muted);
+      padding:6px 10px;
+      border-radius:6px;
+      transition:.2s;
+    }
+
+    nav.links a:hover{
+      color:var(--accent);
+      background:#f1f1f1;
+    }
+
+    /* =========== TITULO =========== */
+    .title-area{
+      margin:16px 0 18px;
+    }
+
+    .eyebrow{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+
+    h1{
+      font-size:26px;
+      margin-bottom:6px;
+    }
+
+    .desc{
+      max-width:700px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    /* =========== CONTROLS =========== */
+    .controls{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:12px;
+      margin:18px 0;
+    }
+
+    .filters{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .btn{
+      background:#fff;
+      border:1px solid #ddd;
+      padding:8px 12px;
+      border-radius:6px;
+      font-size:14px;
+      cursor:pointer;
+    }
+
+    select{
+      padding:6px;
+      border-radius:6px;
+      border:1px solid #ddd;
+    }
+
+    /* =========== GRID =========== */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(170px,1fr));
+      gap:var(--gap);
+    }
+
+    .card{
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .card:hover{
+      transform:translateY(-3px);
+    }
+
+    .thumb{
+      background:#f6f6f6;
+      padding:18px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+
+    .thumb img{
+      max-height:240px;
+      object-fit:contain;
+    }
+
+    .favorite{
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      background:rgba(255,255,255,.9);
+      border:1px solid #ddd;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      cursor:pointer;
+    }
+
+    .meta{
+      margin-top:10px;
+    }
+
+    .brand{
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+    }
+
+    .title{
+      font-size:14px;
+      font-weight:600;
+      margin:4px 0 2px;
+    }
+
+    .price{
+      color:var(--accent);
+      font-weight:700;
+      font-size:15px;
+    }
+
+    /* =========== MODAL =========== */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:60;
+    }
+
+    .modal{
+      background:#fff;
+      width:100%;
+      max-width:950px;
+      border-radius:12px;
+      padding:20px;
+      display:flex;
+      gap:20px;
+      max-height:90vh;
+      overflow:auto;
+      flex-wrap:wrap;
+    }
+
+    .modal .images{
+      flex:1;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .modal .images img{
+      width:48%;
+      border-radius:8px;
+    }
+
+    .product-info{
+      flex:1;
+      min-width:260px;
+    }
+
+    .product-info h2{
+      margin-bottom:6px;
+      font-size:20px;
+    }
+
+    .product-info .meta{
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    .product-info .price{
+      font-size:22px;
+      font-weight:700;
+    }
+
+    .selector,.qty{
+      width:100%;
+      padding:10px;
+      border:1px solid #ddd;
+      border-radius:6px;
+      margin-top:10px;
+    }
+
+    .product-actions{
+      display:flex;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .primary{
+      background:#111;
+      color:#fff;
+      border:none;
+      padding:12px 16px;
+      border-radius:6px;
+      cursor:pointer;
+    }
+
+    .ghost{
+      background:#fff;
+      border:1px solid #ddd;
+      padding:12px 16px;
+      border-radius:6px;
+      cursor:pointer;
+    }
+
+    /* CARRITO y BOTONES */
+    .cart-btn{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      background:#111;
+      color:#fff;
+      border:none;
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      z-index:70;
+      box-shadow:0 4px 8px rgba(0,0,0,.2);
+    }
+
+    .instagram-btn {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: #fff;
+      border: 2px solid #ddd;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 9999;
+      transition: 0.25s;
+      box-shadow: 0 4px 8px rgba(0,0,0,.15);
+    }
+
+    .instagram-btn:hover{
+      transform:scale(1.07);
+      box-shadow:0 6px 14px rgba(0,0,0,.25);
+    }
+
+    .instagram-btn img{
+      width:30px;
+      height:30px;
+    }
+
+    /* PANEL CARRITO */
+    .cart{
+      position:fixed;
+      right:0;
+      top:0;
+      height:100vh;
+      width:360px;
+      background:#fff;
+      border-left:1px solid #eee;
+      transform:translateX(100%);
+      transition:transform .28s;
+      z-index:70;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .cart.open{transform:translateX(0)}
+
+    /* ========== BLOQUE DEL CARRITO (PEGADO) ========== */
+    .cart-list {
+      flex: 1;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding-right: 5px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-item img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cart-item .info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-item .name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .cart-item .meta {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .cart-item .price {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .cart-item .btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+
+    /* ===== AUTH MODAL ===== */
+.auth-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.auth-modal{
+  background:#fff;
+  width:380px;
+  max-width:90%;
+  padding:32px;
+  border-radius:14px;
+  position:relative;
+}
+
+.close-auth{
+  position:absolute;
+  top:14px;
+  right:14px;
+  background:none;
+  border:none;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.auth-sub{
+  font-size:14px;
+  color:#666;
+  margin-bottom:20px;
+}
+
+.social-auth button{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  background:#fff;
+  cursor:pointer;
+}
+
+.divider{
+  text-align:center;
+  font-size:13px;
+  color:#999;
+  margin:14px 0;
+}
+
+
+  </style>
+</head> 
+
+
+
+<style>
+  /* BOTONES DE CATEGORÍAS (links como botones) */
+  .filters a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .filters .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .02em;
+
+    cursor: pointer;
+    transition: all .25s ease;
+  }
+
+  .filters .btn:hover {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+  }
+
+  .filters .btn.active {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+  }
+</style>
+
+
+
+
+<body>
+
+<!-- INSTAGRAM BUTTON -->
+<a href="https://www.instagram.com/maison.kicksoficial" target="_blank" class="instagram-btn">
+  <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+</a>
+
+<header class="top wrap">
+  <div class="branding">𝐌𝐚𝐢𝐬𝐨𝐧 𝐊𝐢𝐜𝐤𝐬</div>
+  <nav class="links">
+    <a href="pagina2.html">Shorts</a>
+    <a href="pagina3.html">Hoodies</a>
+    <a href="pagina4.html">Pants</a>
+    <a href="pagina5.html">Playeras</a>
+    <a href="javascript:void(0)" id="loginBtn">Iniciar sesión</a>
+
+
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <div class="title-area">
+    <div class="eyebrow"></div>
+    <h1>𝐌𝐚𝐢𝐬𝐨𝐧 𝐊𝐢𝐜𝐤𝐬</h1>
+    <p class="desc">Los mejores básicos de vestuario.</p>
+  </div>
+
+ <div class="controls">
+  <div class="filters">
+    <a href="pagina3.html" class="btn">Hoodie</a>
+    <a href="pagina5.html" class="btn">Playera</a>
+    <a href="pagina2.html" class="btn">Short</a>
+    <a href="pagina4.html" class="btn">Pants</a>
+  </div>
+</div>
+
+
+    <div class="sort">
+      <label>Ordenar por&nbsp;
+        <select id="sortSelect">
+          <option>Popularidad</option>
+          <option selected>Precio: bajo a alto</option>
+          <option>Precio: alto a bajo</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <section class="grid" id="grid"></section>
+
+</main>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="images" id="modal-images"></div>
+
+    <div class="product-info">
+      <h2 id="modal-title"></h2>
+      <p class="meta" id="modal-sub"></p>
+      <div class="price" id="modal-price"></div>
+
+      <label>Seleccionar talla</label>
+      <select id="modal-size" class="selector"></select>
+
+      <label>Cantidad</label>
+      <input id="modal-qty" type="number" class="qty" min="1" value="1">
+
+      <div class="product-actions">
+        <button class="primary" id="addCart">Añadir</button>
+        <button class="ghost" id="closeModal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL CARRITO -->
+<aside class="cart" id="cart">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h3>Mi bolsa</h3>
+    <button class="btn" id="closeCart">Cerrar</button>
+  </div>
+
+  <div class="cart-list" id="cartList"></div>
+  <div class="total" id="totalLine">Total: $0</div>
+
+  <!-- BOTÓN WHATSAPP -->
+  <button id="whatsappPay" class="primary" style="margin-top:14px;background:#25D366;">
+    Pagar por WhatsApp
+  </button>
+</aside>
+
+<footer class="wrap"></footer>
+
+<!-- PRODUCT LIST + JS -->
+<script>
+/* =============== PRODUCTOS =============== */
+const products = [
+  {id:2,title:'Hoodie SS24',sub:'Essentials X TJ',price:1250,images:['img/product1_1.jpg'],sizes:['S','M','L','XL']},
+  {id:3,title:'Playeras',sub:'Essentials X TJ',price:899,images:['img/product3_1.jpg'],sizes:['S','M','L','XL']},
+  
+  {id:5,title:'Shorts',sub:'Essentials X TJ',price:899,images:['img/product8_1.jpg'],sizes:['S','M','L','XL']},
+  
+  {id:7,title:'Pants',sub:'Essentials X TJ',price:1099,images:['img/product6_1.jpg'],sizes:['S','M','L','XL']},
+  
+];
+
+const grid = document.getElementById('grid');
+const overlay = document.getElementById('overlay');
+const modalImages = document.getElementById('modal-images');
+const modalTitle = document.getElementById('modal-title');
+const modalSub = document.getElementById('modal-sub');
+const modalPrice = document.getElementById('modal-price');
+const modalSize = document.getElementById('modal-size');
+const modalQty = document.getElementById('modal-qty');
+const addCart = document.getElementById('addCart');
+const closeModal = document.getElementById('closeModal');
+const sortSelect = document.getElementById('sortSelect');
+
+function renderGrid(){
+  let prds=[...products];
+  const sortVal=sortSelect.value;
+
+  if(sortVal==='Precio: bajo a alto') prds.sort((a,b)=>a.price-b.price);
+  else if(sortVal==='Precio: alto a bajo') prds.sort((a,b)=>b.price-a.price);
+
+  grid.innerHTML='';
+  prds.forEach(p=>{
+    const a=document.createElement('article');
+    a.className='card';
+    a.innerHTML=`
+      <div class="thumb" data-id="${p.id}">
+        <img src="${p.images[0]}">
+      </div>
+      <div class="meta">
+        <div class="brand">${p.sub}</div>
+        <div class="title">${p.title}</div>
+        <div class="price">$${p.price.toLocaleString()}</div>
+      </div>
+    `;
+    a.querySelector('.thumb').addEventListener('click',()=>openModal(p.id));
+    grid.appendChild(a);
+  });
+}
+
+let currentProduct=null;
+
+function openModal(id){
+  if(id===5) return location.href="pagina2.html";
+  if(id===2) return location.href="pagina3.html";
+  if(id===7) return location.href="pagina4.html";
+  if(id===3) return location.href="pagina5.html";
+
+  const p=products.find(x=>x.id===id);
+  currentProduct=p;
+
+  modalImages.innerHTML=p.images.map(i=>`<img src="${i}">`).join('');
+  modalTitle.textContent=p.title;
+  modalSub.textContent=p.sub;
+  modalPrice.textContent=`$${p.price.toLocaleString()}`;
+  modalSize.innerHTML=p.sizes.map(s=>`<option>${s}</option>`).join('');
+  modalQty.value=1;
+
+  overlay.style.display='flex';
+}
+
+closeModal.onclick=()=>overlay.style.display='none';
+overlay.onclick=e=>e.target===overlay&&(overlay.style.display='none');
+
+sortSelect.onchange=renderGrid;
+renderGrid();
+</script>
+
+<!-- MINI CARRITO -->
+<button id="miniCart" class="cart-btn" style="bottom:90px;">🛒 <span id="miniCount">0</span></button>
+
+<script src="carrito.js"></script>
+
+<script>
+document.getElementById("whatsappPay").onclick = () => {
+  if (cart.length === 0) {
+    alert("Tu carrito está vacío.");
+    return;
+  }
+
+  let mensaje = "¡Hola! Quiero completar mi compra:%0A%0A";
+
+  let total = 0;
+  cart.forEach((p, i) => {
+    mensaje += `• ${p.name} (Talla ${p.size}) - $${p.price}%0A`;
+    total += p.price;
+  });
+
+  mensaje += `%0A Total: $${total}%0A%0A¿Está disponible?`;
+
+  // TU NÚMERO AQUÍ
+  const numero = "526647813813"; // ← cámbialo si quieres
+
+  const url = `https://wa.me/${numero}?text=${mensaje}`;
+  window.open(url, "_blank");
+};
+</script>
+
+<script>
+addCart.onclick=()=>{
+  if(!currentProduct) return;
+  addToCart({
+    id:currentProduct.id,
+    name:currentProduct.title,
+    price:currentProduct.price,
+    size:modalSize.value,
+    image:currentProduct.images[0]
+  });
+};
+</script>
+</script>
+<script>
+  document.getElementById('btnPlayera').addEventListener('click', () => {
+    window.location.href = 'pagina5.html';
+  });
+</script>
+
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-modal">
+    <button class="close-auth" id="closeAuth">✕</button>
+
+    <h2>Inicia sesión o regístrate</h2>
+    <p class="auth-sub">Accede a tu cuenta para continuar</p>
+
+    <div class="social-auth">
+      <button type="button" id="googleLogin" class="social google">
+  Continuar con Google
+</button>
+
+<button type="button" id="facebookLogin" class="social facebook">
+  Continuar con Facebook
+</button>
+
+    </button>
+  </div>
+</div>
+<script>
+document.getElementById("loginBtn")?.addEventListener("click", (e) => {
+  e.preventDefault();
+  document.getElementById("authOverlay").style.display = "flex";
+});
+
+document.getElementById("closeAuth").onclick = () => {
+  document.getElementById("authOverlay").style.display = "none";
+};
+</script>
+<script type="module">
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+import { auth } from "./firebase.js";
+
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+
+// 🔹 BOTONES
+const googleLogin = document.getElementById("googleLogin");
+const facebookLogin = document.getElementById("facebookLogin");
+const emailLogin = document.getElementById("emailLogin");
+const authOverlay = document.getElementById("authOverlay");
+const loginBtn = document.getElementById("loginBtn");
+const authEmail = document.getElementById("authEmail");
+const authPassword = document.getElementById("authPassword");
+
+// 🔹 LOGIN GOOGLE
+googleLogin.onclick = () => {
+  signInWithPopup(auth, googleProvider);
+};
+
+// 🔹 LOGIN FACEBOOK
+facebookLogin.onclick = () => {
+  signInWithPopup(auth, facebookProvider);
+};
+
+// 🔹 LOGIN EMAIL / REGISTRO AUTOMÁTICO
+emailLogin.onclick = async () => {
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      authEmail.value,
+      authPassword.value
+    );
+  } catch {
+    await createUserWithEmailAndPassword(
+      auth,
+      authEmail.value,
+      authPassword.value
+    );
+  }
+};
+
+// ✅ ESCUCHAR SESIÓN (ESTO SOLUCIONA TODO)
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("Sesión iniciada:", user.email);
+
+    // cerrar modal
+    authOverlay.style.display = "none";
+
+    // guardar sesión
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        uid: user.uid,
+        email: user.email
+      })
+    );
+
+    // cambiar texto del botón
+    if (loginBtn) {
+      loginBtn.textContent = "Mi cuenta";
+    }
+  }
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // cerrar modal
+    authOverlay.style.display = "none";
+
+    // cambiar texto del botón
+    if (loginBtn) {
+      loginBtn.textContent = "Mi cuenta";
+    }
+
+    console.log("Sesión iniciada:", user.email);
+  }
+});
+
+
+</script>
+
+<script type="module" src="./firebase.js"></script>
+<script type="module" src="./auth.js"></script>
+
+
+</body>
+</html>
